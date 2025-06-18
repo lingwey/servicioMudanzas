@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Registro de Usuario{% endblock %}
+
+{% block content %}
+<div class="registro-container">
+    <h2>Registro de Usuario</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tipoUsuario = document.getElementById("tipo_usuario");
+        const dniField = document.getElementById("dni_field").parentElement;
+        const cuilField = document.getElementById("cuil_field").parentElement;
+
+        const vehiculoFields = [
+            document.getElementById("tipo_vehiculo_field").parentElement,
+            document.getElementById("patente_field").parentElement,
+            document.getElementById("marca_field").parentElement,
+            document.getElementById("modelo_field").parentElement,
+            document.getElementById("seguro_field").parentElement,
+            document.getElementById("seguro_vigente_field").parentElement
+        ];
+
+        function actualizarVisibilidad() {
+            if (tipoUsuario.value === "cliente") {
+                dniField.style.display = "block";
+                cuilField.style.display = "none";
+                vehiculoFields.forEach(field => field.style.display = "none");
+            } else if (tipoUsuario.value === "chofer_particular") {
+                dniField.style.display = "block";
+                cuilField.style.display = "none";
+                vehiculoFields.forEach(field => field.style.display = "block");
+            } else if (tipoUsuario.value === "empresa") {
+                dniField.style.display = "none";
+                cuilField.style.display = "block";
+                vehiculoFields.forEach(field => field.style.display = "none");
+            } else {
+                dniField.style.display = "none";
+                cuilField.style.display = "none";
+                vehiculoFields.forEach(field => field.style.display = "none");
+            }
+        }
+
+        tipoUsuario.addEventListener("change", actualizarVisibilidad);
+        actualizarVisibilidad();  // Ejecutar al cargar la página
+    });
+</script>
+
+
+{% endblock %}

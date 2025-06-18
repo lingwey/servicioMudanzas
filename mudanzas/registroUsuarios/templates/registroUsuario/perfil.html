@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de Usuario{% endblock %}
+
+{% block content %}
+    <div class="perfil-container">
+        <h2>Perfil de {{ request.user.nombre }}</h2>
+
+    {% if perfil.avatar %}
+        <img src="{{ perfil.avatar.url }}" alt="Avatar" style="max-height: 150px; border-radius: 50%;">
+    {% else %}
+        <p>[Sin imagen de perfil]</p>
+    {% endif %}
+
+    <p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
+    <p><strong>Teléfono:</strong> {{ perfil.telefono }}</p>
+    <p><strong>Fecha de nacimiento:</strong> {{ perfil.fecha_nacimiento|date:"d/m/Y" }}</p>
+
+
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <p><strong>Tipo de Usuario:</strong> {{ request.user.get_tipo_usuario_display }}</p>
+    
+    {% if request.user.tipo_usuario == "cliente" %}
+        <p><strong>DNI:</strong> {{ request.user.dni }}</p>
+        <p><strong>Subastas creadas:</strong> {{ request.user.cliente.subastas_creadas }}</p>
+    {% elif request.user.tipo_usuario == "chofer_particular" %}
+        <p><strong>DNI:</strong> {{ request.user.dni }}</p>
+        <p><strong>Vehículo:</strong> {{ request.user.choferparticular.tipo_vehiculo }}</p>
+        <p><strong>Patente:</strong> {{ request.user.choferparticular.numero_patente }}</p>
+        <p><strong>Marca:</strong> {{ request.user.choferparticular.marca }}</p>
+        <p><strong>Modelo:</strong> {{ request.user.choferparticular.modelo }}</p>
+        <p><strong>Seguro:</strong> {{ request.user.choferparticular.seguro }}</p>
+        <p><strong>Seguro Vigente:</strong> {% if request.user.choferparticular.seguro_vigente %}✔ Sí{% else %}❌ No{% endif %}</p>
+    {% elif request.user.tipo_usuario == "empresa" %}
+        <p><strong>CUIL:</strong> {{ request.user.cuil }}</p>
+        <p><strong>Nombre de la Empresa:</strong> {{ request.user.empresa.nombre_empresa }}</p>
+        <p><strong>Seguro:</strong> {{ request.user.empresa.seguro }}</p>
+        <p><strong>Seguro Vigente:</strong> {% if request.user.empresa.seguro_vigente %}✔ Sí{% else %}❌ No{% endif %}</p>
+    {% endif %}
+
+    <p><strong>Fecha de Registro:</strong> {{ request.user.fecha_creacion|date:"d/m/Y" }}</p>
+    <a href="{% url 'perfilUsuarios:editar_perfil' %}">Editar perfil</a>
+
+</div>
+{% endblock %}
