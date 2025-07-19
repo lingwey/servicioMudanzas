@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Ofertar en subasta: {{ subasta.origen }} → {{ subasta.destino }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar oferta</button>
+</form>
+{% endblock %}

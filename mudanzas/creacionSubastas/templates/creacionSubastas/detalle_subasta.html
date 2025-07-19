@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Subasta: {{ subasta.origen }} → {{ subasta.destino }}</h2>
+
+    <p><strong>Fecha de envío:</strong> {{ subasta.fecha_envio }}</p>
+    <p><strong>Descripción:</strong> {{ subasta.descripcion }}</p>
+    <p><strong>Destino:</strong> {{ subasta.destino_calle }}, {{ subasta.destino_localidad }}, {{ subasta.destino_provincia }}</p>
+    <p><strong>Finaliza en:</strong> {{ subasta.tiempo_limite }}</p>
+    <p><strong>Estado:</strong> {% if subasta.finalizada %}Finalizada{% else %}Activa{% endif %}</p>
+    <p><strong>Precio máximo dispuesto a pagar:</strong> ${{ subasta.precio_referencia }}</p>
+
+    <hr>
+
+    <h3>Ofertas recibidas:</h3>
+    <div id="ofertas-container">
+        {% include "creacionSubastas/partials/_ofertas.html" with ofertas=ofertas %}
+    </div>
+
+
+    <hr>
+
+    <!-- Botón para finalizar subasta (solo cliente y si está activa) -->
+    {% if request.user.tipo_usuario == "cliente" and not subasta.finalizada %}
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="finalizar_manual">Finalizar subasta (elegir menor precio)</button>
+            <a href="{% url 'creacionSubastas:descargar_ticket_pdf' subasta.id %}">📥 Descargar ticket en PDF</a>
+        </form>
+    {% endif %}
+
+    <!-- Formulario de oferta (solo chofer/empresa y si está activa) -->
+    {% if not subasta.finalizada %}
+        {% if request.user.tipo_usuario == "chofer_particular" or request.user.tipo_usuario == "empresa" %}
+            <h3>📥 Enviar oferta</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" name="enviar_oferta">Ofertar</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    {% load static %}
+    <script>
+        window.subastaId = {{ subasta.id }};
+    </script>
+    {% block scripts %}
+        <script src="{% static 'creacionSubastas/subasta_utils.js' %}"></script>
+        <script src="{% static 'creacionSubastas/subasta_ui.js' %}"></script>
+        <script src="{% static 'creacionSubastas/subasta_ws.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

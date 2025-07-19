@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Ticket de cierre de subasta</h2>
+
+<h3>📦 Cargamento</h3>
+<p><strong>Origen:</strong> {{ subasta.origen }}</p>
+<p><strong>Destino:</strong> {{ subasta.destino_calle }}, {{ subasta.destino_localidad }}, {{ subasta.destino_provincia }}</p>
+<p><strong>Fecha de envío:</strong> {{ subasta.fecha_envio }}</p>
+<p><strong>Descripción:</strong> {{ subasta.descripcion }}</p>
+
+<h3>🧍 Cliente</h3>
+<p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+<p><strong>Email:</strong> {{ cliente.email }}</p>
+<p><strong>Dirección:</strong> {{ cliente.perfil.direccion }}</p>
+
+<h3>🚚 Ganador</h3>
+{% if ganador %}
+    <p><strong>Nombre:</strong> {{ ganador.nombre }}</p>
+    <p><strong>Tipo:</strong> {{ ganador.get_tipo_usuario_display }}</p>
+    <p><strong>Email:</strong> {{ ganador.email }}</p>
+    <p><strong>Oferta ganadora:</strong> ${{ oferta.precio }}</p>
+{% else %}
+    <p><em>No hubo ofertas ganadoras.</em></p>
+{% endif %}
+
+<p><strong>Fecha de cierre:</strong> {{ subasta.tiempo_limite }}</p>
+<p><strong>Subasta finalizada:</strong> {% if subasta.finalizada %}Sí{% else %}No{% endif %}</p>
+{% endblock %}

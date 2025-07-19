@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "perfilUsuarios",
     "creacionSubastas",
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,15 @@ AUTHENTICATION_BACKENDS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+INSTALLED_APPS += ["channels"]
+
+ASGI_APPLICATION = "mudanzas.asgi.application"  # nombre del proyecto, ajustá si lo tuyo es distinto
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

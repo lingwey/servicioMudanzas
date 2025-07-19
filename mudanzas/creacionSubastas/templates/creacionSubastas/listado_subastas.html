@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Subastas disponibles</h2>
+
+{% if subastas %}
+<table>
+  <tr>
+    <th>Origen</th>
+    <th>Destino</th>
+    <th>Fecha envío</th>
+    <th>Fecha límite</th>
+    <th>Acción</th>
+  </tr>
+  {% for subasta in subastas %}
+  <tr>
+    <td>{{ subasta.origen }}</td>
+    <td>{{ subasta.destino_calle }}, {{ subasta.destino_localidad }}, {{ subasta.destino_provincia }}</td>
+    <td>{{ subasta.fecha_envio }}</td>
+    <td>{{ subasta.tiempo_limite }}</td>
+    <td><a href="{% url 'creacionSubastas:detalle_subasta' subasta.id %}">Ver detalle</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>No hay subastas activas en este momento.</p>
+{% endif %}
+{% endblock %}

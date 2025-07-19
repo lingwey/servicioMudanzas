@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Perfil de usuario{% endblock  %}
+{% block content %}
+    <h2>Perfil de {{ usuario.get_tipo_usuario_display }}</h2>
+
+    <p><strong>Email:</strong> {{ usuario.email }}</p>
+    {% if perfil and perfil.avatar %}
+        <img src="{{ perfil.avatar.url }}" alt="Foto de perfil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+    {% else %}
+        <p><em>Este usuario aún no tiene foto de perfil cargada.</em></p>
+    {% endif %}
+
+    {% if usuario.tipo_usuario == "chofer_particular" %}
+        <p><strong>Nombre completo:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+        <p><strong>Vehículo:</strong> {{ usuario.vehiculo }}</p>
+        <p><strong>Patente:</strong> {{ usuario.patente }}</p>
+    {% elif usuario.tipo_usuario == "empresa" %}
+        <p><strong>Nombre completo:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+    {% endif %}
+{% endblock  %}

@@ -1,0 +1,13 @@
+{% if ofertas %}
+    <ul>
+        {% for oferta in ofertas %}
+            <li>
+                ${{ oferta.precio }} – <a href="{% url 'perfilUsuarios:perfil_publico' oferta.ofertante.id %}">
+        {{ oferta.ofertante.get_tipo_usuario_display }} ({{ oferta.ofertante.email }})
+    </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aún no hay ofertas.</p>
+{% endif %}

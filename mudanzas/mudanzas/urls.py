@@ -16,5 +16,6 @@ urlpatterns = [
     path("login/", login_usuario, name="login_usuario"),
     path("logout/", LogoutView.as_view(next_page="home"), name="logout"),
     path("perfil/", include("perfilUsuarios.urls", namespace="perfilUsuarios")),
+    path("subastas/", include("creacionSubastas.urls", namespace="creacionSubastas")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

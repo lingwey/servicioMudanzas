@@ -1,0 +1,12 @@
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <h4>Imágenes de referencia:</h4>
+  {{ formset.management_form }}
+  {% for subform in formset %}
+      {{ subform.as_p }}
+  {% endfor %}
+
+  <button type="submit">Crear Subasta</button>
+</form>

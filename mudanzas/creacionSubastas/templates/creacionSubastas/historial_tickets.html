@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Historial de tickets de subasta</h2>
+
+{% if tickets %}
+<table>
+  <tr>
+    <th>ID Subasta</th>
+    <th>Origen</th>
+    <th>Destino</th>
+    <th>Precio final</th>
+    <th>Fecha cierre</th>
+    <th>Acción</th>
+  </tr>
+  {% for ticket in tickets %}
+  <tr>
+    <td>{{ ticket.subasta.id }}</td>
+    <td>{{ ticket.subasta.origen }}</td>
+    <td>{{ ticket.subasta.destino_calle }}, {{ ticket.subasta.destino_localidad }}, {{ ticket.subasta.destino_provincia }}</td>
+    <td>${{ ticket.precio_final }}</td>
+    <td>{{ ticket.fecha_cierre }}</td>
+    <td><a href="{% url 'creacionSubastas:ticket_subasta' ticket.subasta.id %}">Ver ticket</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>No hay tickets registrados todavía.</p>
+{% endif %}
+{% endblock %}

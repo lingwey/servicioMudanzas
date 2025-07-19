@@ -9,29 +9,39 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <header>
-        <div id="header">
-            <span class="logo">logo/nombre</span>
-            {% if request.user.is_authenticated %}
-                <ul class="menu">
-                    <li><a href="{% url 'perfil_usuario' %}">Perfil</a></li>
-                    <li><a href="#">Subastas</a></li>
-                </ul>
-            {% endif %}
-            <a href="{% url 'home' %}">Inicio</a>
-            <span class="user">
-                {% if request.user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login_usuario'%}">Iniciar sesión</a>
-                    <a href="{% url 'registro_usuario' %}">Registrarse</a>
+<header>
+    <div id="header">
+        <span class="logo">logo/nombre</span>
+        {% if request.user.is_authenticated %}
+            <ul class="menu">
+                <li><a href="{% url 'perfilUsuarios:perfil_usuario' %}">👤 Perfil</a></li>
+
+                {% if request.user.tipo_usuario == "cliente" %}
+                    <li><a href="{% url 'creacionSubastas:crear_subasta' %}">📦 Crear Subasta</a></li>
+                    <li><a href="{% url 'creacionSubastas:historial_tickets' %}">📄 Mis Tickets</a></li>
+                {% elif request.user.tipo_usuario in "chofer_particular empresa" %}
+                    <li><a href="{% url 'creacionSubastas:historial_tickets' %}">📄 Tickets Ganados</a></li>
+                    <li><a href="{% url 'creacionSubastas:listar_subastas_vigentes' %}">🔍 Ver Subastas</a></li>    
                 {% endif %}
-            </span>
-        </div>
-    </header>
+            </ul>
+        {% endif %}
+
+        <a href="{% url 'home' %}">🏠 Inicio</a>
+
+        <span class="user">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login_usuario'%}">Iniciar sesión</a>
+                <a href="{% url 'registro_usuario' %}">Registrarse</a>
+            {% endif %}
+        </span>
+    </div>
+</header>
+
     
     <main>
         <div class="content">
