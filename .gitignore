@@ -1,3 +1,9 @@
-mi_entonrno
-avatars
+.gitignore
+# Ignorar base de datos SQLite
 db.sqlite3
+
+# Ignorar carpeta de entorno virtual
+mi_entorno/
+
+# Ignorar carpeta donde guardás avatares u archivos de usuario
+avatrs/
